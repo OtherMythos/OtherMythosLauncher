@@ -1,0 +1,19 @@
+{
+    "generated": "2026-10-07T20:14:18Z",
+    "projects": {
+        "avEngine": {
+            "index": "avEngine/index.json",
+            "builds": 1,
+            "latest": {
+                "linux-Release": "20261007-143508-cbabfc2"
+            }
+        },
+        "exampleGame": {
+            "index": "exampleGame/index.json",
+            "builds": 3,
+            "latest": {
+                "linux-Release": "20261007-194830-143694b"
+            }
+        }
+    }
+}

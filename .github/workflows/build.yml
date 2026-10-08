@@ -1,0 +1,126 @@
+name: Build
+
+on:
+  push:
+    branches: [master]
+    tags: ['v*']
+  pull_request:
+    branches: [master]
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: ${{ matrix.platform }}
+    runs-on: ${{ matrix.os }}
+    container: ${{ matrix.container }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          #Built in an Ubuntu 22.04 container so the binary needs no newer glibc than 2.35:
+          #it then runs on SteamOS and anything from the last few years, and doesn't change
+          #when GitHub moves its runner images on.
+          - platform: linux
+            os: ubuntu-latest
+            container: ubuntu:22.04
+          - platform: windows
+            os: windows-2022
+            container: ''
+    steps:
+      - name: Install build dependencies
+        if: matrix.platform == 'linux'
+        env:
+          DEBIAN_FRONTEND: noninteractive
+        run: |
+          apt-get update
+          apt-get install -y --no-install-recommends \
+            build-essential cmake ninja-build git ca-certificates pkg-config file libcurl4 \
+            libx11-dev libxext-dev libxrandr-dev libxcursor-dev libxi-dev libxfixes-dev libxss-dev libxtst-dev \
+            libxkbcommon-dev libwayland-dev wayland-protocols libdecor-0-dev libegl-dev libgl-dev libgles-dev \
+            libdrm-dev libgbm-dev libudev-dev libdbus-1-dev
+
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Mark the checkout safe for git describe
+        if: matrix.platform == 'linux'
+        run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
+
+      - name: Configure
+        shell: bash
+        run: |
+          if [ "${{ matrix.platform }}" = linux ]; then
+            cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release
+          else
+            cmake -S . -B build -G "Visual Studio 17 2022" -A x64
+          fi
+
+      - name: Build
+        run: cmake --build build --config Release --parallel
+
+      - name: Test
+        shell: bash
+        run: ctest --test-dir build -C Release --output-on-failure
+
+      - name: Check Linux runtime dependencies
+        if: matrix.platform == 'linux'
+        run: |
+          strip build/OtherMythosLauncher
+          readelf -d build/OtherMythosLauncher | grep NEEDED | tee needed.txt
+          if grep -vE '\[(libc|libm|libdl|libpthread|librt|ld-linux-x86-64)\.so' needed.txt; then
+            echo "::error::The launcher links a library beyond libc and friends"; exit 1
+          fi
+          glibc=$(objdump -T build/OtherMythosLauncher | grep -o 'GLIBC_[0-9.]*' | sort -uV | tail -1)
+          echo "Newest glibc symbol: $glibc"
+          ls -l build/OtherMythosLauncher
+
+      - name: Check Windows runtime dependencies
+        if: matrix.platform == 'windows'
+        shell: pwsh
+        run: |
+          $vswhere = "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe"
+          $dumpbin = & $vswhere -latest -find "**\Hostx64\x64\dumpbin.exe" | Select-Object -First 1
+          $deps = & $dumpbin /nologo /dependents build\Release\OtherMythosLauncher.exe
+          $deps
+          if ($deps -match 'VCRUNTIME|MSVCP') { Write-Error "The launcher needs the Visual C++ runtime"; exit 1 }
+          Get-Item build\Release\OtherMythosLauncher.exe | Format-List Name, Length
+
+      - name: Package
+        shell: bash
+        run: |
+          mkdir dist
+          if [ "${{ matrix.platform }}" = linux ]; then
+            tar -C build -czf dist/OtherMythosLauncher-linux-x86_64.tar.gz OtherMythosLauncher
+          else
+            cp build/Release/OtherMythosLauncher.exe dist/OtherMythosLauncher-windows-x64.exe
+          fi
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: OtherMythosLauncher-${{ matrix.platform }}
+          path: dist/*
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ui-capture-${{ matrix.platform }}
+          path: build/tests/capture.bmp
+          if-no-files-found: ignore
+
+  release:
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: OtherMythosLauncher-*
+          path: dist
+          merge-multiple: true
+      - name: Publish the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create "$GITHUB_REF_NAME" dist/* --repo "$GITHUB_REPOSITORY" --generate-notes

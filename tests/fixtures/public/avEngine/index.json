@@ -1,0 +1,72 @@
+{
+    "generated": "2026-10-08T12:57:01Z",
+    "expectedJobs": [
+        "linux-Debug",
+        "linux-Release",
+        "windows-Debug",
+        "windows-Release"
+    ],
+    "latest": {
+        "linux-Release": "20261007-143508-cbabfc2",
+        "windows-Release": "20261007-143508-cbabfc2"
+    },
+    "latestAllGood": null,
+    "builds": [
+        {
+            "id": "20261008-101010-dddd111",
+            "commit": "dddd111",
+            "committed": "2026-10-08T10:10:10Z",
+            "allGood": false,
+            "jobs": {
+                "linux-Debug": {
+                    "status": "pending"
+                },
+                "linux-Release": {
+                    "status": "failed",
+                    "log": "https://github.com/OtherMythos/avEngine/actions/runs/1"
+                },
+                "windows-Debug": {
+                    "status": "no result"
+                },
+                "windows-Release": {
+                    "status": "failed",
+                    "reason": "upload incomplete: missing avEngineWindows-Release.zip"
+                }
+            }
+        },
+        {
+            "id": "20261007-143508-cbabfc2",
+            "commit": "cbabfc2",
+            "committed": "2026-10-07T14:35:08Z",
+            "allGood": false,
+            "jobs": {
+                "linux-Debug": {
+                    "status": "failed"
+                },
+                "linux-Release": {
+                    "status": "ok",
+                    "files": [
+                        {
+                            "name": "av-x86_64-Release.AppImage",
+                            "size": 15710712,
+                            "sha256": "2b5641fbbe59f47b621caf90e6afb9feab3dca19d08c408530fdecc10df2c722"
+                        }
+                    ]
+                },
+                "windows-Debug": {
+                    "status": "failed"
+                },
+                "windows-Release": {
+                    "status": "ok",
+                    "files": [
+                        {
+                            "name": "avEngineWindows-Release.zip",
+                            "size": 10581955,
+                            "sha256": "47a6ddf5f0940f08c3fc7c4e184a3a904061ef112080b16c683769fb9f13dc2f"
+                        }
+                    ]
+                }
+            }
+        }
+    ]
+}

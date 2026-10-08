@@ -1,0 +1,5 @@
+#pragma once
+
+namespace OML{
+    static const char* const kVersion = "@OML_VERSION@";
+}

@@ -1,0 +1,13 @@
+{
+    "generated": "2026-10-08T12:57:01Z",
+    "projects": {
+        "avEngine": {
+            "index": "avEngine/index.json",
+            "builds": 2,
+            "latest": {
+                "linux-Release": "20261007-143508-cbabfc2",
+                "windows-Release": "20261007-143508-cbabfc2"
+            }
+        }
+    }
+}

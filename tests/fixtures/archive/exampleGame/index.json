@@ -1,0 +1,120 @@
+{
+    "generated": "2026-10-07T20:14:18Z",
+    "jobs": [
+        "linux-Debug",
+        "linux-Release",
+        "windows-Release"
+    ],
+    "latest": {
+        "linux-Debug": "20261007-194830-143694b",
+        "linux-Release": "20261007-194830-143694b",
+        "windows-Release": "20261007-194830-143694b"
+    },
+    "builds": [
+        {
+            "id": "20261007-194830-143694b",
+            "commit": "143694b",
+            "committed": "2026-10-07T19:48:30Z",
+            "jobs": {
+                "linux-Debug": {
+                    "status": "ok",
+                    "files": [
+                        {
+                            "name": "ExampleGame-Debug-143694b.AppImage",
+                            "path": "20261007-194830-143694b/linux-Debug/ExampleGame-Debug-143694b.AppImage",
+                            "size": 229767672,
+                            "sha256": "8d8a4c895458393c8a51f527c8b29a4328803a3982ad5168e1d4454f96b8d910",
+                            "executable": true
+                        }
+                    ]
+                },
+                "linux-Release": {
+                    "status": "ok",
+                    "files": [
+                        {
+                            "name": "ExampleGame-Release-143694b.AppImage",
+                            "path": "20261007-194830-143694b/linux-Release/ExampleGame-Release-143694b.AppImage",
+                            "size": 224926200,
+                            "sha256": "cdd7afbf25fa9c49effae969ba5c262004620fab85e465df0f7bda8516416471",
+                            "executable": true
+                        }
+                    ]
+                },
+                "windows-Release": {
+                    "status": "ok",
+                    "files": [
+                        {
+                            "name": "ExampleGameWindows-Release.zip",
+                            "path": "20261007-194830-143694b/windows-Release/ExampleGameWindows-Release.zip",
+                            "size": 98000000,
+                            "sha256": "d044f0180e6859a75e06fa2bf69c9d0e04d5a23089ad300e51a7bfce9f13ef31",
+                            "executable": false
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "id": "20261007-162326-4613779",
+            "commit": "4613779",
+            "committed": "2026-10-07T16:23:26Z",
+            "jobs": {
+                "linux-Debug": {
+                    "status": "ok",
+                    "files": [
+                        {
+                            "name": "ExampleGame-Debug-4613779.AppImage",
+                            "path": "20261007-162326-4613779/linux-Debug/ExampleGame-Debug-4613779.AppImage",
+                            "size": 229767672,
+                            "sha256": "40fe8471ca7696ecca4d2b6056a986392aa2cd5ee10aba9f44a54bd0f8e294fc",
+                            "executable": true
+                        }
+                    ]
+                },
+                "linux-Release": {
+                    "status": "ok",
+                    "files": [
+                        {
+                            "name": "ExampleGame-Release-4613779.AppImage",
+                            "path": "20261007-162326-4613779/linux-Release/ExampleGame-Release-4613779.AppImage",
+                            "size": 224926200,
+                            "sha256": "9db5de90820b9d230443da442d2421c87073e94e1a0d46ce16c7dcaf7258d41e",
+                            "executable": true
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "id": "20261005-091500-a1b2c3d",
+            "commit": "a1b2c3d",
+            "committed": "2026-10-05T09:15:00Z",
+            "jobs": {
+                "linux-Debug": {
+                    "status": "ok",
+                    "files": [
+                        {
+                            "name": "ExampleGame-Debug-a1b2c3d.AppImage",
+                            "path": "20261005-091500-a1b2c3d/linux-Debug/ExampleGame-Debug-a1b2c3d.AppImage",
+                            "size": 229767672,
+                            "sha256": "d46655640fb14a7067a7c404748033ca887621f2a0d8d27cd6dac314ee57f505",
+                            "executable": true
+                        }
+                    ]
+                },
+                "linux-Release": {
+                    "status": "ok",
+                    "files": [
+                        {
+                            "name": "ExampleGame-Release-a1b2c3d.AppImage",
+                            "path": "20261005-091500-a1b2c3d/linux-Release/ExampleGame-Release-a1b2c3d.AppImage",
+                            "size": 224926200,
+                            "sha256": "e92b6708ccb0bdfedf4286b4470f18de431331c6252146f720079a198f7dc8e2",
+                            "executable": true
+                        }
+                    ]
+                }
+            }
+        }
+    ]
+}

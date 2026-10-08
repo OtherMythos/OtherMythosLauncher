@@ -1,0 +1,44 @@
+{
+    "generated": "2026-10-07T20:14:18Z",
+    "jobs": [
+        "linux-Release",
+        "windows-Release"
+    ],
+    "latest": {
+        "linux-Release": "20261007-143508-cbabfc2",
+        "windows-Release": "20261007-143508-cbabfc2"
+    },
+    "builds": [
+        {
+            "id": "20261007-143508-cbabfc2",
+            "commit": "cbabfc2",
+            "committed": "2026-10-07T14:35:08Z",
+            "jobs": {
+                "linux-Release": {
+                    "status": "ok",
+                    "files": [
+                        {
+                            "name": "av-x86_64-Release.AppImage",
+                            "path": "20261007-143508-cbabfc2/linux-Release/av-x86_64-Release.AppImage",
+                            "size": 15710712,
+                            "sha256": "2b5641fbbe59f47b621caf90e6afb9feab3dca19d08c408530fdecc10df2c722",
+                            "executable": true
+                        }
+                    ]
+                },
+                "windows-Release": {
+                    "status": "ok",
+                    "files": [
+                        {
+                            "name": "avEngineWindows-Release.zip",
+                            "path": "20261007-143508-cbabfc2/windows-Release/avEngineWindows-Release.zip",
+                            "size": 10581955,
+                            "sha256": "47a6ddf5f0940f08c3fc7c4e184a3a904061ef112080b16c683769fb9f13dc2f",
+                            "executable": false
+                        }
+                    ]
+                }
+            }
+        }
+    ]
+}
