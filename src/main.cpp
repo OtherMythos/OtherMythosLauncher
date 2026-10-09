@@ -71,12 +71,19 @@ namespace{
 
 #ifdef _WIN32
     //A WIN32-subsystem exe has no console, so --help would print nowhere when run from a terminal.
+    //Output already sent to a file or a pipe (2> log.txt) stays there.
+    bool redirected(DWORD stdHandle){
+        DWORD type = GetFileType(GetStdHandle(stdHandle));
+        return type == FILE_TYPE_DISK || type == FILE_TYPE_PIPE;
+    }
+
     void attachParentConsole(){
-        if(AttachConsole(ATTACH_PARENT_PROCESS)){
-            FILE* f = nullptr;
-            freopen_s(&f, "CONOUT$", "w", stdout);
-            freopen_s(&f, "CONOUT$", "w", stderr);
-        }
+        bool out = redirected(STD_OUTPUT_HANDLE);
+        bool err = redirected(STD_ERROR_HANDLE);
+        if((out && err) || !AttachConsole(ATTACH_PARENT_PROCESS)) return;
+        FILE* f = nullptr;
+        if(!out) freopen_s(&f, "CONOUT$", "w", stdout);
+        if(!err) freopen_s(&f, "CONOUT$", "w", stderr);
     }
 #endif
 
@@ -408,10 +415,13 @@ int main(int argc, char** argv){
     }
 
     SDL_SetAppMetadata("OtherMythos Launcher", kVersion, "com.othermythos.launcher");
+#ifdef __linux__
     //Without libdecor, a Wayland window on GNOME has no title bar, so take X11 (XWayland) when
     //there is one; the window manager decorates it. Gamescope on the Deck is X11 regardless.
-    //SDL_VIDEO_DRIVER in the environment still overrides this.
+    //SDL_VIDEO_DRIVER in the environment still overrides this. Only on Linux: anywhere else,
+    //neither driver exists and SDL_Init fails.
     SDL_SetHint(SDL_HINT_VIDEO_DRIVER, "x11,wayland");
+#endif
     SDL_SetHint(SDL_HINT_AUTO_UPDATE_JOYSTICKS, "0");
     if(capturing){
         SDL_SetHint(SDL_HINT_VIDEO_DRIVER, "dummy");
